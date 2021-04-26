@@ -11,9 +11,16 @@ import java.util.Map;
 public class CommentAnalyzer {
 	
 	private File file;
-	
+	// making a generic algorithm checking normal comments
+	private Map<String, String> commentsTypes ; 
+	// check all length comments
 	public CommentAnalyzer(File file) {
 		this.file = file;
+		// initialize the comment types handler
+		commentsTypes = new HashMap<>();
+		// add any case you want to find in the comments here
+		commentsTypes.put("MOVER_MENTIONS", "Mover");
+		commentsTypes.put("SHAKER_MENTIONS", "Shaker");
 	}
 	
 	public Map<String, Integer> analyze() {
@@ -24,20 +31,13 @@ public class CommentAnalyzer {
 			
 			String line = null;
 			while ((line = reader.readLine()) != null) {
-				
+				// we leave this since it is dealing with length check
 				if (line.length() < 15) {
-					
 					incOccurrence(resultsMap, "SHORTER_THAN_15");
-
-				} else if (line.contains("Mover")) {
-
-					incOccurrence(resultsMap, "MOVER_MENTIONS");
-				
-				} else if (line.contains("Shaker")) {
-
-					incOccurrence(resultsMap, "SHAKER_MENTIONS");
-				
 				}
+				// check if comments contains any generic values
+				commentsTypes.
+				
 			}
 			
 		} catch (FileNotFoundException e) {
