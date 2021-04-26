@@ -14,19 +14,15 @@ public class CommentAnalyzer {
 	// making a generic algorithm checking normal comments
 	private Map<String, String> commentsTypes ; 
 	// check all length comments
-	public CommentAnalyzer(File file) {
+	public CommentAnalyzer(File file, Map<String, String> commentsTypes) {
 		this.file = file;
 		// initialize the comment types handler
-		commentsTypes = new HashMap<>();
-		// add any case you want to find in the comments here
-		commentsTypes.put("MOVER_MENTIONS", "Mover");
-		commentsTypes.put("SHAKER_MENTIONS", "Shaker");
+		this.commentsTypes = commentsTypes;
 	}
 	
 	public Map<String, Integer> analyze() {
 		
 		Map<String, Integer> resultsMap = new HashMap<>();
-		
 		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 			
 			String line = null;
@@ -36,7 +32,12 @@ public class CommentAnalyzer {
 					incOccurrence(resultsMap, "SHORTER_THAN_15");
 				}
 				// check if comments contains any generic values
-				commentsTypes.
+				for (Map.Entry<String, String> entry : commentsTypes.entrySet()) {
+					// used case insensitive searching to get more accurate results
+					if(line.toLowerCase().contains(entry.getValue().toLowerCase())) {
+						incOccurrence(resultsMap,  entry.getKey());	
+					}
+				}
 				
 			}
 			
